@@ -1,54 +1,50 @@
 # BankingSystemProject
-Выполнил Сурин Родион, 1 курс ПМИ ФПМИ МФТИ.
 
-<br />
+## Technical Information:
 
-<font size="6">**Техническая информация:**</font>
+UML diagrams are located in the `docs` folder.
 
-UML-диаграммы находятся в папке `docs`.
-
-Для сборки необходимо склонировать репозиторий и, находясь в директории со склонированным содержимым в терминале, прописать
+To build the project, clone the repository and run the following commands in the terminal from the directory containing the cloned content:
 ```
 mkdir build && cd build && cmake .. && make && cd ..
 ```
-Минимальная версия CMake - 3.14, для сборки необходим установленный GoogleTest.
+The minimum required version of CMake is 3.14. GoogleTest must be installed for successful compilation.
 
-Командой для запуска будет `./bin/banking-system`, командой для запуска всех тестов будет `./bin/run-all-tests`.
+To run the application, use the command: `./bin/banking-system`, and to execute all tests, use: `./bin/run-all-tests`.
 
-<br />
 
-<font size="6">**Описание проекта:**</font>
+## Project Description:
 
-**Струĸтура**
+**Structure**
 
-Есть несĸольĸо Банĸов, ĸоторые предоставляют финансовые услуги по операциям с деньгами. В банĸе есть Счета и Клиенты. У ĸлиента есть имя, фамилия, адрес и номер паспорта (имя и фамилия обязательны, остальное – опционально).
+The project represents a banking system comprising multiple banks offering financial services for cash operations. Each bank manages accounts and clients. A client has a first name, last name, address, and passport number (first and last name are mandatory, the other details are optional).
 
-Счета бывают трёх видов: Дебетовый счет, Депозит и Кредитный счет. Каждый счет принадлежит ĸаĸому-то ĸлиенту.
+There are three types of accounts: debit, deposit, and credit. Each account belongs to a specific client.
 
-Дебетовый счет – обычный счет: деньги можно снимать в любой момент, в минус уходить нельзя. Комиссий нет.
+* **Debit Account:** A standard account allowing withdrawals at any time without going into negative balance. No fees are applied.
+ 
+* **Deposit Account:** An account that prohibits withdrawals and transfers until the term expires but allows deposits. No fees are charged.
 
-Депозит – счет, с ĸоторого нельзя снимать и переводить деньги до тех пор, поĸа не заĸончится его сроĸ (пополнять можно). Комиссий нет.
+* **Credit Account:** An account with a set credit limit, allowing clients to go negative. A fixed fee is charged for using the credit limit.
 
-Кредитный счет – имеет ĸредитный лимит, в рамĸах ĸоторого можно уходить в минус. Есть фиĸсированная ĸомиссия за использование, если ĸлиент в минусе. 
+**Implementation Details**
 
-<br />
+Each account provides functionality for withdrawal, deposit, and transfer operations (each account has a unique identifier).
 
-**Детали**
+The client creation process occurs in stages. Initially, the client provides their first and last name (mandatory), and may optionally add their address and passport details. If a client does not provide their address or passport number when creating an account, that account is classified as suspicious, which limits withdrawal and transfer operations above a certain threshold (different banks may set varying limits). Once the client provides all the necessary information, the account ceases to be suspicious and is available for unrestricted use.
 
-Каждый счет предоставляет механизм снятия, пополнения и перевода денег (у счетов есть идентифиĸаторы). 
+Additionally, the system includes a transaction cancellation mechanism.
 
-Клиент создается по шагам. Сначала он уĸазывает имя и фамилию (обязательно), затем адрес (можно пропустить и не уĸазывать), затем паспортные данные (можно пропустить и не уĸазывать). Если при создании счета у ĸлиента не уĸазаны адрес или номер паспорта, мы объявляем таĸой счет любого типа сомнительным, и запрещаем операции снятия и перевода выше определенной суммы (у ĸаждого банĸа своё значение). Если в дальнейшем ĸлиент уĸазывает всю необходимую информацию о себе - счет перестает быть сомнительным и может использоваться без ограничений. 
+## Additional Features:
 
-Также есть механизм отмены транзаĸций.
+The project includes several enhancements that enrich its functionality:
 
-<br />
+* `MessageHandler` **Class:** Efficiently manages messaging within the system, facilitating easy interface adjustments.
 
-<font size="6">**Еще немного информации по проекту:**</font>
+* **Capitalization Viewing:** Clients can view capitalization for any bank, providing insights into their investments.
 
-Во 2-й итерации с помощью паттерна Facade реализован класс MessageHandler, который получает сообщения из системы 
-и из которого их могут считывать данные различные интерфейсы, когда им это потребуется.
-Таким образом, при необходимости интерфейс с интерфейса командной строки CommandLineInterface может быть быстро изменен на любой другой: сетевой, графический и т.д.
+* **Balance Overview:** Users can check their total balance across multiple banks, streamlining financial management.
 
-В 3-й итерации в качестве новых возможностей были добавлены: просмотр капитализации у любого банка, просмотр клиентом своего общего баланса в системе (учитываются все аккаунты клиента во всех банках), добавление текстового сообщения к переводу.
+* **Transfer Messages:** The ability to add text messages to transfers enhances communication between clients during transactions.
 
-В 4-й итерации добавлены тесты для каждой логической компоненты проекта, а также Dockerfile на основе Ubuntu с GoogleTest. При запуске контейнера, полученного из Dockerfile, пользователь находится в папке `/bank_system_project/bin` с уже скомпилированными программами банковской системы и тестов для нее.
+These features significantly improve the user experience and operational flexibility of the banking system.
